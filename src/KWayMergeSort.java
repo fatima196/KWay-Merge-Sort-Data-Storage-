@@ -61,6 +61,28 @@ public class KWayMergeSort {
     }
     int BinarySearchOnSortedFile(String Sortedfilename, int RecordKey)
     {
-        return 1;
+        RandomAccessFile file = new RandomAccessFile(Sortedfilename,"r");
+        int first=0;
+        int last = (int) file.length()/8;
+        int middle ;
+
+        //Loop until found or end of list.
+        while(first <= last)
+        {
+            middle = (first + last) /2;
+            file.seek(middle*8);
+            int key = file.readInt();
+            if(key==RecordKey)
+                return middle*8;
+            else
+            {
+                if(key > RecordKey)
+                    last = middle -1;
+                else
+                    first = middle + 1;
+            }
+        }// end while
+
+        return -1;
     }
 }
